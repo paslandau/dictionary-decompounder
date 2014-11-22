@@ -13,8 +13,8 @@ Donau-Dampf-Schiff-Fahrt[s]-Gesellschaft[s]-Kapitän (letters in square brackets
 
 In the field of text mining/information retrieval, decompounding is a valuable technique to widen the index terms of a document in order to make 
 it relevant for the individual terms of a compound word. The `DictionaryDecompounder` provides a dictionary based algorithm to perform the decompounding.
-In theory, it should be language-agnostic since you need to provide the dictionary (and the interfixes) yourself - but I'm not familiar with another 
-compound language apart from German so take this with a grain of salt.
+In theory, it should be language-agnostic since you need to provide the dictionary (and the interfixes) yourself - but I'm not familiar with other 
+compound languages apart from German so take this with a grain of salt.
 
 A german dictionary based on the [german full form dictionary](http://www.danielnaber.de/morphologie/) of Daniel Naber is included and located in `resources/dict-de.txt` (UTF-8 encoded). In addition, this
 project was originally developed as a PHP translation of Daniel's [jwordsplitter](https://github.com/danielnaber/jwordsplitter) written in Java (although
@@ -103,7 +103,7 @@ $interfixes = [
 $interfixer = new Interfixer($interfixes);
 ```
 
-Next, a `Decompounder` is instantiated with the dictionary and the interfixer
+Next, a `Decompounder` is instantiated with the dictionary and the interfixer as dependencies
 
 ```php
 // Create decompounder
@@ -151,7 +151,9 @@ which should be an array containing every partial word of the compound word.  In
  - don-au-dampf-schiff-fahrt[s]-gesellschaft[s]-kapitän 
   
 To get the "one" solution, the result now has to be filtered. This filter has to implement the `DecompoundFilterInterface` and provide a method to list all possible solutions as multi dimensional string array (via `filterList()` method) and
-to pick the "best" solution as string array (via `filterBest()`). A default filter is provided with the `DecompoundFilter` class. This class provides several settings to customize the filtered result.
+to pick the "best" solution as string array (via `filterBest()`). 
+
+A default filter is provided with the `DecompoundFilter` class. This class provides several settings to customize the filtered result.
 The most important one is the `$onlyValid` flag which states that only solutions are acceptable that contain only valid individual words (e.g. exist in the provided dictionary).
 
 ```php
@@ -174,7 +176,7 @@ But we still got 2 possible, valid solutions:
  - don-au-dampf-schiff-fahrt[s]-gesellschaft[s]-kapitän 
  
 Now, "donau-dampf-schiff-fahrt[s]-gesellschaft[s]-kapitän" is the one we're looking for and we can get that by using the `$preferLessParts` option on the `DecompoundFilter`.
-This option assures that decompoundings with less parts are weighted higher than decompoundings with more parts. Activing this filter and using the `filterBest()` method yields
+This option assures that decompoundings with less parts are weighted higher than decompoundings with more parts. Activating this filter and using the `filterBest()` method yields
 the desired result:
 
 ```php
@@ -280,7 +282,8 @@ There are two important things to notice:
 1. A `CompleteWord` can have more than one `PartialWords` decompounding option
 2. A `PartialWord` consits of a left and a right part where each part is a `CompleteWord` again (hence might consist of `PartialWords` itself)
 
-The algorithmn needs this kind of flexibility because it has no information about the given word other than the word itself. This migh lead to situations where multiple solutions exists. Example:
+The algorithm needs this kind of flexibility because it has no information about the given word other than the word itself. 
+This might lead to situations where multiple solutions exists. Example:
 
     Eis|becher
     ---^        "becher" in dictionary
@@ -308,7 +311,7 @@ can customize it to his needs.
 ###Cons
  
  - high memory consumption (dictionary is loaded into memory [which also leads to a long startup time])
- - relatively slow (produces every possible decompounding option- only to throw most of them away later on)
+ - relatively slow (produces every possible decompounding option - only to throw most of them away later on)
  - ambigous results (Eis-Becher vs. Ei[s]-Becher)
    
 ##Similar projects
