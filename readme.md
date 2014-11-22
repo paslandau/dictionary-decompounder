@@ -16,8 +16,9 @@ it relevant for the individual terms of a compound word. The `DictionaryDecompou
 In theory, it should be language-agnostic since you need to provide the dictionary (and the interfixes) yourself - but I'm not familiar with other 
 compound languages apart from German so take this with a grain of salt.
 
-A german dictionary based on the [german full form dictionary](http://www.danielnaber.de/morphologie/) of Daniel Naber is included and located in `resources/dict-de.txt` (UTF-8 encoded). In addition, this
-project was originally developed as a PHP translation of Daniel's [jwordsplitter](https://github.com/danielnaber/jwordsplitter) written in Java (although
+A german dictionary based on the [german full form dictionary](http://www.danielnaber.de/morphologie/) of Daniel Naber is included and located in `resources/dict-de.txt` (UTF-8 encoded). 
+It is licensed under [Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](http://creativecommons.org/licenses/by-sa/4.0/).
+In addition, this project was originally developed as a PHP translation of Daniel's [jwordsplitter](https://github.com/danielnaber/jwordsplitter) written in Java (although
 there isn't much left of the original code after refactoring it like 3 times :))
 
 ###Basic Usage
