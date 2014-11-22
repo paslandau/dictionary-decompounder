@@ -7,11 +7,11 @@ use paslandau\DictionaryDecompounder\Interfix\InterfixerInterface;
 class Decompounder
 {
     /**
-     * Map of [string ($word) => DecompoundingPart ($decompoundingResult)] that denotes how a certain word has to
+     * Map of [string ($word) => CompleteWord ($decompoundingResult)] that denotes how a certain word has to
      * be decompounded because it won't be caught right by the decompounding algorithm.
      * E.g. "Eisenbahn" => new DecompoundingPart("Eisenbahn", true);
      *        (because otherwise we would end up with "Eisen" and "Bahn".
-     * @var DecompoundingPart[]
+     * @var CompleteWord[]
      */
     private $predefinedDecompoundingResults;
 
@@ -51,7 +51,7 @@ class Decompounder
     /**
      * Get all decompound possibilities for $word
      * @param string $word
-     * @return DecompoundingPart
+     * @return CompleteWord
      */
     public function decompoundWord($word)
     {
@@ -69,19 +69,19 @@ class Decompounder
     }
 
     /**
-     * Adds a decompunding exception.
+     * Adds a predefined decompounding.
      * @param $word
-     * @param DecompoundingPart $decompoundingPart
+     * @param CompleteWord $decompoundingResult
      */
-    public function addPredefinedDecompoundingResult($word, DecompoundingPart $decompoundingPart)
+    public function addPredefinedDecompoundingResult($word, CompleteWord $decompoundingResult)
     {
         $word = $this->dictionary->getNormalizer()->normalize($word);
-        $this->predefinedDecompoundingResults[$word] = $decompoundingPart;
+        $this->predefinedDecompoundingResults[$word] = $decompoundingResult;
     }
 
     /**
      * @param $word
-     * @return null|DecompoundingPart
+     * @return null|CompleteWord
      */
     public function getPredefinedDecompoundingResult($word)
     {
@@ -101,76 +101,9 @@ class Decompounder
         return mb_strlen($word) >= $this->minWordLength && $this->dictionary->exists($word);
     }
 
-//    /**
-//     * @param string $word
-//     * @return DecompoundingPart
-//     */
-//    private function split($word)
-//    {
-//        if ($word === null || $word === "") {
-//            return null;
-//        }
-//
-//        // check if the word is an exception
-//        if ( ($res = $this->getPredefinedDecompoundingResult($word)) !== null){
-//            return $res;
-//        }
-//
-//        $decompoundingPart = new DecompoundingPart($word, $this->isValidWord($word));
-//
-//        $charCount = strlen($word);
-//        $resultSet = [];
-//        for ($i = $charCount - $this->minWordLength; $i >= 0; $i--) {
-//            $leftPart = mb_substr($word, 0, $i);
-//            $rightPart = mb_substr($word, $i);
-//
-//            $interfixedParts = $this->interfixer->getInterfixedParts($rightPart);
-//
-//            $checks = $interfixedParts;
-//            $checks[] = array($rightPart, ""); // add variant without interfix by default
-//
-//            foreach ($checks as $checkArr) {
-//                $check = $checkArr[0];
-//                $interfix = $checkArr[1];
-//                $rightDecompounding = null;
-//                if ($this->isValidWord($check)) {
-//                    if ($i !== 0) { // 0 would mean we're checking the original $word
-//                        $rightDecompounding = $this->split($check);
-//                    } else {
-//                        $rightDecompounding = new DecompoundingPart($check, true);
-//                    }
-//                }
-//                // found dictionary match
-//                if ($rightDecompounding !== null) {
-//                    $rightDecompounding->setInterfix($interfix);
-//                    if ($i !== 0) { // 0 would mean we're checking the original $word
-//                        $leftDecompounding = $this->split($leftPart);
-//                        $resultSet[] = array($leftDecompounding, $rightDecompounding);
-//                    } else {
-//                        // override orginal settings with what we just found out about the full word
-//                        $decompoundingPart->setInterfix($rightDecompounding->getInterfix());
-//                        $decompoundingPart->setWord($rightDecompounding->getWord());
-//                        $decompoundingPart->setInDictionary($rightDecompounding->isInDictionary());
-//
-////                        $decompoundingPart->setDecompoundingParts($res->getDecompoundingParts());
-////                        $resultSet[] = [$decompoundingPart];
-////                        return $decompoundingPart;
-////                        if ($res->isPredefined()) {
-////                            $decompoundingPart->setIsPredefined(true);
-////                            $decompoundingPart->setDecompoundingParts($res->getDecompoundingParts());
-////                            return $decompoundingPart;
-////                        }
-//                    }
-//                }
-//            }
-//        }
-//        $decompoundingPart->setDecompoundingParts($resultSet);
-//        return $decompoundingPart;
-//    }
-
     /**
      * @param string $word
-     * @return DecompoundingPart[]
+     * @return CompleteWord[]
      */
     private function split($word)
     {
@@ -183,7 +116,7 @@ class Decompounder
             return [$res];
         }
 
-        $originalDecompoundingPart = new DecompoundingPart($word, $this->isValidWord($word));
+        $originalCompleteWord = new CompleteWord($word, $this->isValidWord($word));
 
         $charCount = mb_strlen($word);
         $results = [];
@@ -201,38 +134,37 @@ class Decompounder
             foreach ($rightPartsOfWord as $rightPartOfWordArr) {
                 $rightPartOfWord = $rightPartOfWordArr[0];
                 $interfix = $rightPartOfWordArr[1];
-                $rightDecompounding = null;
                 if ($this->isValidWord($rightPartOfWord)) {
                     if ($i > 0) { // 0 would mean we're checking the original $word
-                        $rightDecompoundings = $this->split($rightPartOfWord);
-                        foreach($rightDecompoundings as $key => $rightDecompounding) {
-                            if ($rightDecompounding->getInterfix() !== ""){ // we already have the interfix, so we can ignore these parts
-                                unset($rightDecompoundings[$key]);
+                        $rightWords = $this->split($rightPartOfWord);
+                        foreach($rightWords as $key => $rightWord) {
+                            if ($rightWord->getInterfix() !== ""){ // we already have the interfix, so we can ignore these parts
+                                unset($rightWords[$key]);
                             }
-                            $rightDecompounding->setInterfix($interfix);
+                            $rightWord->setInterfix($interfix);
                         }
 
-                        $leftDecompoundings = $this->split($leftPart);
-                        foreach($rightDecompoundings as $rightDecompounding){
-                            foreach($leftDecompoundings as $leftDecompounding){
-                                $resultSet[] = array($leftDecompounding, $rightDecompounding);
+                        $leftWords = $this->split($leftPart);
+                        foreach($rightWords as $rightWord){
+                            foreach($leftWords as $leftWord){
+                                $resultSet[] = new PartialWords($leftWord, $rightWord);
                             }
                         }
                     } else {
-                        $finalDecompounding = new DecompoundingPart($rightPartOfWord, true);
-                        $finalDecompounding->setInterfix($interfix);
-                        $results[] = $finalDecompounding;
+                        $completeWord = new CompleteWord($rightPartOfWord, true);
+                        $completeWord->setInterfix($interfix);
+                        $results[] = $completeWord;
                     }
                 }
             }
         }
 
         if(count($results) === 0){ // even after we checked if the original word might have interfixes, we couldn't find it in the dictionary
-            $results[] = $originalDecompoundingPart; // so let's add the original one
+            $results[] = $originalCompleteWord; // so let's add the original one
         }
-        /** @var DecompoundingPart $part */
+        /** @var CompleteWord $part */
         foreach($results as $part){
-            $part->setDecompoundingParts($resultSet);
+            $part->setPartialWordsList($resultSet);
         }
         return $results;
     }

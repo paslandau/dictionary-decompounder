@@ -1,5 +1,8 @@
 <?php
 
+//set encoding
+mb_internal_encoding("utf-8");
+
 //discover autoloader
 $path = "vendor/autoload.php";
 for($i=0; $i<3;$i++){
