@@ -1,0 +1,23 @@
+{
+    "name": "paslandau/DictionaryDecompounder",
+    "description" : "A dictionary based decompounder that recognizes compound words like 'Herrenschuhe' and splits them into its individual parts, e.g. 'Herren' and 'Schuhe'.",
+    "authors": [
+        {
+            "name": "Pascal Landau",
+            "email": "kontakt@myseosolution.de",
+            "homepage": "http://www.myseosolution.de",
+            "role": "Developer"
+        }
+    ],
+	"autoload": {
+	    "psr-4": {
+	        "paslandau\\DictionaryDecompounder\\": "src/"
+	    }
+	},
+    "require" : {
+        "php": "~5.5"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "~3"
+    }
+}
