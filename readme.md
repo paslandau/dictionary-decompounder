@@ -66,14 +66,10 @@ The recommended way to install dictionary-decompounder is through [Composer](htt
 Next, update your project's composer.json file to include DictionaryDecompounder:
 
     {
-        "repositories": [
-            {
-                "type": "git",
-                "url": "https://github.com/paslandau/dictionary-decompounder.git"
-            }
-        ],
+        "repositories": [ { "type": "composer", "url": "http://packages.myseosolution.de/"} ],
+        "minimum-stability": "dev",
         "require": {
-             "paslandau/dictionary-decompounder": "~0"
+             "paslandau/dictionary-decompounder": "dev-master"
         }
     }
 
