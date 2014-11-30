@@ -1,5 +1,5 @@
 {
-    "name": "paslandau/DictionaryDecompounder",
+    "name": "paslandau/dictionary-decompounder",
     "description" : "A dictionary based decompounder that recognizes compound words like 'Herrenschuhe' and splits them into its individual parts, e.g. 'Herren' and 'Schuhe'.",
     "authors": [
         {

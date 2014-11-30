@@ -1,3 +1,7 @@
+## 0.1.0
+
+ - changed package name from DictionaryDecompounder to dictionary-decompounder
+
 ###0.0.2
 
 - added license

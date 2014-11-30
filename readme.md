@@ -1,5 +1,5 @@
-#DictionaryDecompounder
-[![Build Status](https://travis-ci.org/paslandau/DictionaryDecompounder.svg?branch=master)](https://travis-ci.org/paslandau/DictionaryDecompounder)
+#dictionary-decompounder
+[![Build Status](https://travis-ci.org/paslandau/dictionary-decompounder.svg?branch=master)](https://travis-ci.org/paslandau/dictionary-decompounder)
 
 A dictionary based decompounder that recognizes compound words like 'Herrenschuh' and splits them into its individual parts, e.g. 'Herren' and 'Schuh'.
 
@@ -12,7 +12,7 @@ Compounding is primarily known in in German, Scandinavian Languages, Finnish and
 Donau-Dampf-Schiff-Fahrt[s]-Gesellschaft[s]-Kapitän (letters in square brackets are so called interfixes).
 
 In the field of text mining/information retrieval, decompounding is a valuable technique to widen the index terms of a document in order to make 
-it relevant for the individual terms of a compound word. The `DictionaryDecompounder` provides a dictionary based algorithm to perform the decompounding.
+it relevant for the individual terms of a compound word. The `dictionary-decompounder` provides a dictionary based algorithm to perform the decompounding.
 In theory, it should be language-agnostic since you need to provide the dictionary (and the interfixes) yourself - but I'm not familiar with other 
 compound languages apart from German so take this with a grain of salt.
 
@@ -59,7 +59,7 @@ See `demo*.php` files.
 
 ##Installation
 
-The recommended way to install DictionaryDecompounder is through [Composer](http://getcomposer.org/).
+The recommended way to install dictionary-decompounder is through [Composer](http://getcomposer.org/).
 
     curl -sS https://getcomposer.org/installer | php
 
@@ -69,11 +69,11 @@ Next, update your project's composer.json file to include DictionaryDecompounder
         "repositories": [
             {
                 "type": "git",
-                "url": "https://github.com/paslandau/DictionaryDecompounder.git"
+                "url": "https://github.com/paslandau/dictionary-decompounder.git"
             }
         ],
         "require": {
-             "paslandau/DictionaryDecompounder": "~0"
+             "paslandau/dictionary-decompounder": "~0"
         }
     }
 
@@ -206,7 +206,7 @@ echo implode("-",$decompoundedResult);
 
 ###Algorithm
 
-The `DictionaryDecompounder` implements a dictionary based decompounding algorithm. In short, there has to be a dictionary of known words that is used
+The `dictionary-decompounder` implements a dictionary based decompounding algorithm. In short, there has to be a dictionary of known words that is used
 to analyze compound words. In addition, so called interfixes can be provided, that "glue" two parts of a compound word together and are taken into
 account when checking the dictionary. Example:
 
