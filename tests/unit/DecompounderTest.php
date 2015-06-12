@@ -204,7 +204,6 @@ class DecompounderTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($expected[0], $actual->getWord(), "Word didn't match");
             $this->assertEquals($expected[1], $actual->getInterfix(), "Interfix didn't match");
             $this->assertEquals($expected[2], $actual->isInDictionary(), "IsInDictionary didn't match");
-            $this->assertEquals($expected[2], $actual->isInDictionary(), "IsInDictionary didn't match");
             if (array_key_exists("children", $expected)) {
                 $allParts = $actual->getPartialWordsList();
                 foreach ($allParts as $innerParts) {

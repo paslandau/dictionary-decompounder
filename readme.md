@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/paslandau/dictionary-decompounder.svg?branch=master)](https://travis-ci.org/paslandau/dictionary-decompounder)
 
 A dictionary based decompounder that recognizes compound words like 'Herrenschuh' and splits them into its individual parts, e.g. 'Herren' and 'Schuh'.
+The resources folders contains a dictionary file suitable for a *German Decompounder*. The examples are German as well.
 
 ##Description
 
@@ -51,7 +52,7 @@ echo $result;
 
 ###Examples
 
-See `demo*.php` files.
+See `examples` folder.
 
 ##Requirements
 
@@ -320,4 +321,5 @@ can customize it to his needs.
 
 - How can I split compound words in their individual parts?
 - Where can I find an example for an open source PHP decompounder?
-- How does a dictionary base word decompounder work?
+- How does a dictionary based word decompounder work?
+- Is there an open source German Decompounder?

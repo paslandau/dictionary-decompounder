@@ -29,6 +29,7 @@ class ArrayDictionary implements DictionaryInterface
             $normalizer = new Normalizer();
         }
         $this->normalizer = $normalizer;
+        $this->dictionary = [];
     }
 
     /**

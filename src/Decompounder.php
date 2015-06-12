@@ -93,6 +93,7 @@ class Decompounder
     }
 
     /**
+     * Checks if the word is longer equals $this->minWordLength and exists in the dictionary.
      * @param string $word
      * @return bool
      */

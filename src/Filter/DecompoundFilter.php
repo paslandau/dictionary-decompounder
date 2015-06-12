@@ -46,7 +46,6 @@ class DecompoundFilter implements DecompoundFilterInterface
         $this->preferLessParts = $preferLessParts;
     }
 
-
     /**
      * @param CompleteWord $word
      * @param bool $includeOriginal [optional]. Default: false.
